@@ -1,11 +1,16 @@
 "use strict";
-// import { showReviewTotal, populateUser } from "./utils";
+// import { showReviewTotal, populateUser } from "./utils.js";
+// import { Permissiones, LoyaltyUser } from "./enums.js";
+//
+//
+//
+// MOVE THIS TO A SEPARATE FILE
+//
 var returningUserDisplay = document.querySelector("#returning-user");
 var userNameDisplay = document.querySelector("#user");
 var reviewTotalDisplay = document.querySelector("#reviews");
-var propertiesEl = document.querySelector(".properties");
 function showReviewTotal(value, reviewer, isLoyalty) {
-    var iconDisplay = isLoyalty ? "⭐" : "";
+    var iconDisplay = isLoyalty === LoyaltyUser.GOLD_USER ? "⭐" : "";
     reviewTotalDisplay.innerHTML = "\n    total reviews: " + value.toString() + "\n    |\n    last reviewed by " + reviewer + "\n    " + iconDisplay + "\n  ";
 }
 function populateUser(isReturning, userName) {
@@ -16,35 +21,60 @@ function populateUser(isReturning, userName) {
 }
 //
 //
-// The above can be moved to a separate file, but at the moment I don't know how :(
 //
 //
+//
+//
+//
+// MOVE THIS TO ANOTHER SEPARATE FILE
+//
+// //
+var Permissiones;
+(function (Permissiones) {
+    Permissiones[Permissiones["ADMIN"] = 0] = "ADMIN";
+    Permissiones[Permissiones["READ_ONLY"] = 1] = "READ_ONLY";
+})(Permissiones || (Permissiones = {}));
+var LoyaltyUser;
+(function (LoyaltyUser) {
+    LoyaltyUser["GOLD_USER"] = "GOLD_USER";
+    LoyaltyUser["SILVER_USER"] = "SILVER_USER";
+    LoyaltyUser["BRONZE_USER"] = "BRONZE_USER";
+})(LoyaltyUser || (LoyaltyUser = {}));
+//
+//
+//
+//
+//
+var propertiesEl = document.querySelector(".properties");
+var footerEl = document.querySelector(".footer");
 var isOpen;
 // Reviews
 var reviews = [
     {
         name: "Sheia",
         stars: 5,
-        loyaltyUser: true,
+        loyaltyUser: LoyaltyUser.GOLD_USER,
         date: "01-04-2021",
     },
     {
         name: "Andrzej",
         stars: 3,
-        loyaltyUser: false,
+        loyaltyUser: LoyaltyUser.BRONZE_USER,
         date: "28-03-2021",
     },
     {
         name: "Omar",
         stars: 4,
-        loyaltyUser: true,
+        loyaltyUser: LoyaltyUser.SILVER_USER,
         date: "27-03-2021",
     },
 ];
-// User
+var ADMIN = "admin";
+var READ_ONLY = "read-only";
 var you = {
     firstName: "Bobby",
     lastName: "Brown",
+    permissions: Permissiones.ADMIN,
     isReturning: true,
     age: 35,
     stayedAt: ["florida-home", "oman-flat", "tokyo-bungalow"],
@@ -62,7 +92,7 @@ var properties = [
             postcode: 45632,
             country: "Colombia",
         },
-        contact: "marywinkle@gmail.com",
+        contact: [+1123495082908, "marywinkle@gmail.com"],
         isAvailable: true,
     },
     {
@@ -75,7 +105,7 @@ var properties = [
             postcode: 34904,
             country: "Poland",
         },
-        contact: "jimdavies@hotmail.com",
+        contact: [+1123495082908, "jimdavies@hotmail.com"],
         isAvailable: false,
     },
     {
@@ -88,7 +118,7 @@ var properties = [
             postcode: 444984,
             country: "United Kingdom",
         },
-        contact: "joejones@outlook.com",
+        contact: [+1123495082908, "joejones@outlook.com"],
         isAvailable: true,
     },
 ];
@@ -105,3 +135,6 @@ for (var i = 0; i < properties.length; i++) {
     card.appendChild(image);
     propertiesEl === null || propertiesEl === void 0 ? void 0 : propertiesEl.appendChild(card);
 }
+// use your location, your current time, and current temperature of your location
+var currentLocation = ["Kraków", "15:00", 12];
+footerEl.innerHTML = currentLocation[0] + " " + currentLocation[1] + " " + currentLocation[2] + "\u00B0";
