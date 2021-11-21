@@ -1,23 +1,42 @@
 "use strict";
-// import { showReviewTotal, populateUser } from "./utils.js";
-// import { Permissiones, LoyaltyUser } from "./enums.js";
+// import { showReviewTotal, populateUser } from "./utils";
+// import { Permissiones, LoyaltyUser } from "./enums";
+// import { Price, Country } from "./types";
 //
 //
 //
 // MOVE THIS TO A SEPARATE FILE
+//
 //
 var returningUserDisplay = document.querySelector("#returning-user");
 var userNameDisplay = document.querySelector("#user");
 var reviewTotalDisplay = document.querySelector("#reviews");
 function showReviewTotal(value, reviewer, isLoyalty) {
     var iconDisplay = isLoyalty === LoyaltyUser.GOLD_USER ? "⭐" : "";
-    reviewTotalDisplay.innerHTML = "\n    total reviews: " + value.toString() + "\n    |\n    last reviewed by " + reviewer + "\n    " + iconDisplay + "\n  ";
+    reviewTotalDisplay.innerHTML = "\n    " + value.toString() + " review" + makeMultiple(value) + "\n    |\n    last reviewed by " + reviewer + "\n    " + iconDisplay + "\n  ";
 }
 function populateUser(isReturning, userName) {
     if (isReturning) {
         returningUserDisplay.innerHTML = "back";
     }
     userNameDisplay.innerHTML += userName;
+}
+function showDetails(authorityStatus, element, price) {
+    if (isLoggedIn) {
+        var priceDisplay = document.createElement("div");
+        priceDisplay.innerHTML = price.toString() + "/night";
+        element.appendChild(priceDisplay);
+    }
+}
+function add(firstValue, secondValue) {
+    return firstValue + secondValue;
+}
+function makeMultiple(value) {
+    if (value > 1 || value === 0) {
+        return "s";
+    }
+    else
+        return "";
 }
 //
 //
@@ -40,16 +59,22 @@ var LoyaltyUser;
     LoyaltyUser["SILVER_USER"] = "SILVER_USER";
     LoyaltyUser["BRONZE_USER"] = "BRONZE_USER";
 })(LoyaltyUser || (LoyaltyUser = {}));
-//
-//
+// //
+// //
 //
 //
 //
 var propertiesEl = document.querySelector(".properties");
 var footerEl = document.querySelector(".footer");
 var isOpen;
+var isLoggedIn;
 // Reviews
 var reviews = [
+    //
+    // alternative to the above union type, does the job but it is not optimal
+    //
+    // const reviews: any[] = [
+    //
     {
         name: "Sheia",
         stars: 5,
@@ -67,6 +92,7 @@ var reviews = [
         stars: 4,
         loyaltyUser: LoyaltyUser.SILVER_USER,
         date: "27-03-2021",
+        description: "Great hosts, location was a bit further than said",
     },
 ];
 var ADMIN = "admin";
@@ -80,6 +106,12 @@ var you = {
     stayedAt: ["florida-home", "oman-flat", "tokyo-bungalow"],
 };
 console.log(you.firstName);
+//
+//
+// MOVE THE ABOVE TO A SEPARATE FILE
+//
+//
+//
 // Array of Properties
 var properties = [
     {
@@ -111,7 +143,7 @@ var properties = [
     {
         image: "images/london-property.jpg",
         title: "London flat",
-        price: 55,
+        price: 23,
         location: {
             firstLine: "flat 75",
             city: "London",
@@ -125,6 +157,8 @@ var properties = [
 // Functions
 showReviewTotal(reviews.length, reviews[0].name, reviews[0].loyaltyUser);
 populateUser(you.isReturning, you.firstName);
+var authorityStatus;
+isLoggedIn = true;
 // Add the properties - this is a lot of new stuff !!
 for (var i = 0; i < properties.length; i++) {
     var card = document.createElement("div");
@@ -134,6 +168,7 @@ for (var i = 0; i < properties.length; i++) {
     image.setAttribute("src", properties[i].image);
     card.appendChild(image);
     propertiesEl === null || propertiesEl === void 0 ? void 0 : propertiesEl.appendChild(card);
+    showDetails(you.permissions, card, properties[i].price);
 }
 // use your location, your current time, and current temperature of your location
 var currentLocation = ["Kraków", "15:00", 12];
