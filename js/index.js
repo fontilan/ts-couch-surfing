@@ -9,12 +9,17 @@
 // MOVE THIS TO A SEPARATE FILE UTILS.JS
 //
 //
-var returningUserDisplay = document.querySelector("#returning-user");
-var userNameDisplay = document.querySelector("#user");
-var reviewTotalDisplay = document.querySelector("#reviews");
+const returningUserDisplay = document.querySelector("#returning-user");
+const userNameDisplay = document.querySelector("#user");
+const reviewTotalDisplay = document.querySelector("#reviews");
 function showReviewTotal(value, reviewer, isLoyalty) {
-    var iconDisplay = isLoyalty === LoyaltyUser.GOLD_USER ? "⭐" : "";
-    reviewTotalDisplay.innerHTML = "\n    " + value.toString() + " review" + makeMultiple(value) + "\n    |\n    last reviewed by " + reviewer + "\n    " + iconDisplay + "\n  ";
+    const iconDisplay = isLoyalty === LoyaltyUser.GOLD_USER ? "⭐" : "";
+    reviewTotalDisplay.innerHTML = `
+    ${value.toString()} review${makeMultiple(value)}
+    |
+    last reviewed by ${reviewer}
+    ${iconDisplay}
+  `;
 }
 function populateUser(isReturning, userName) {
     if (isReturning) {
@@ -24,7 +29,7 @@ function populateUser(isReturning, userName) {
 }
 function showDetails(authorityStatus, element, price) {
     if (isLoggedIn) {
-        var priceDisplay = document.createElement("div");
+        const priceDisplay = document.createElement("div");
         priceDisplay.innerHTML = price.toString() + "/night";
         element.appendChild(priceDisplay);
     }
@@ -40,7 +45,7 @@ function makeMultiple(value) {
         return "";
 }
 function getTopTwoReviews(reviews) {
-    var sortedReviews = reviews.sort(function (a, b) { return b.stars - a.stars; });
+    const sortedReviews = reviews.sort((a, b) => b.stars - a.stars);
     return sortedReviews.slice(0, 2);
 }
 //
@@ -68,20 +73,20 @@ var LoyaltyUser;
 //
 //
 //
-var propertiesEl = document.querySelector(".properties");
-var footerEl = document.querySelector(".footer");
-var reviewContainer = document.querySelector(".reviews");
-var containerEl = document.querySelector(".container");
-var buttonEl = document.querySelector("button");
-var isOpen;
-var isLoggedIn;
+const propertiesEl = document.querySelector(".properties");
+const footerEl = document.querySelector(".footer");
+const reviewContainer = document.querySelector(".reviews");
+const containerEl = document.querySelector(".container");
+const buttonEl = document.querySelector("button");
+let isOpen;
+let isLoggedIn;
 //
 //
 //
 //
 //
 // Reviews
-var reviews = [
+const reviews = [
     {
         name: "Sheia",
         stars: 5,
@@ -101,9 +106,9 @@ var reviews = [
         date: "27-03-2021",
     },
 ];
-var ADMIN = "admin";
-var READ_ONLY = "read-only";
-var you = {
+const ADMIN = "admin";
+const READ_ONLY = "read-only";
+const you = {
     firstName: "Bobby",
     lastName: "Brown",
     permissions: Permissiones.ADMIN,
@@ -119,7 +124,7 @@ console.log(you.firstName);
 //
 //
 // Array of Properties
-var properties = [
+const properties = [
     {
         image: "images/colombia-property.jpg",
         title: "Colombian Shack",
@@ -163,27 +168,27 @@ var properties = [
 // Functions
 showReviewTotal(reviews.length, reviews[0].name, reviews[0].loyaltyUser);
 populateUser(you.isReturning, you.firstName);
-var authorityStatus;
+let authorityStatus;
 isLoggedIn = true;
 // Add the properties - this is a lot of new stuff !!
-for (var i = 0; i < properties.length; i++) {
-    var card = document.createElement("div");
+for (let i = 0; i < properties.length; i++) {
+    const card = document.createElement("div");
     card.classList.add("card");
     card.innerHTML = properties[i].title;
-    var image = document.createElement("img");
+    const image = document.createElement("img");
     image.setAttribute("src", properties[i].image);
     card.appendChild(image);
     propertiesEl === null || propertiesEl === void 0 ? void 0 : propertiesEl.appendChild(card);
     showDetails(you.permissions, card, properties[i].price);
     propertiesEl === null || propertiesEl === void 0 ? void 0 : propertiesEl.appendChild(card);
 }
-var count = 0;
+let count = 0;
 function addReviews(reviews) {
     if (!count) {
         count++;
-        var topTwo = getTopTwoReviews(reviews);
-        for (var i = 0; i < topTwo.length; i++) {
-            var card = document.createElement("div");
+        const topTwo = getTopTwoReviews(reviews);
+        for (let i = 0; i < topTwo.length; i++) {
+            const card = document.createElement("div");
             card.classList.add("review-card");
             card.innerHTML = topTwo[i].stars + " stars from " + topTwo[i].name;
             reviewContainer.appendChild(card);
@@ -191,7 +196,7 @@ function addReviews(reviews) {
         containerEl.removeChild(buttonEl);
     }
 }
-buttonEl.addEventListener("click", function () { return addReviews(reviews); });
+buttonEl.addEventListener("click", () => addReviews(reviews));
 // use your location, your current time, and current temperature of your location
-var currentLocation = ["Kraków", "15:00", 12];
-footerEl.innerHTML = currentLocation[0] + ", " + currentLocation[1] + ", " + currentLocation[2] + "\u00B0";
+let currentLocation = ["Kraków", "15:00", 12];
+footerEl.innerHTML = `${currentLocation[0]}, ${currentLocation[1]}, ${currentLocation[2]}°`;
