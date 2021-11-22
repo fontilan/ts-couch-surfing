@@ -1,10 +1,11 @@
 // import { showReviewTotal, populateUser } from "./utils";
 // import { Permissiones, LoyaltyUser } from "./enums";
 // import { Price, Country } from "./types";
+// import { Review } from "./interfaces";
 //
 //
 //
-// MOVE THIS TO A SEPARATE FILE
+// MOVE THIS TO A SEPARATE FILE UTILS.JS
 //
 //
 const returningUserDisplay = document.querySelector("#returning-user");
@@ -49,7 +50,16 @@ function makeMultiple(value: number): string {
     return "s";
   } else return "";
 }
-//
+
+function getTopTwoReviews(reviews: Review[]): {
+  name: string;
+  stars: number;
+  loyaltyUser: LoyaltyUser;
+  date: string;
+}[] {
+  const sortedReviews = reviews.sort((a, b) => b.stars - a.stars);
+  return sortedReviews.slice(0, 2);
+}
 //
 //
 //
@@ -57,9 +67,9 @@ function makeMultiple(value: number): string {
 
 //
 //
-// MOVE THIS TO ANOTHER SEPARATE FILE
+// MOVE THIS TO ANOTHER SEPARATE FILE ENUMS.TS
 //
-// //
+//
 enum Permissiones {
   ADMIN,
   READ_ONLY,
@@ -70,39 +80,37 @@ enum LoyaltyUser {
   SILVER_USER = "SILVER_USER",
   BRONZE_USER = "BRONZE_USER",
 }
-// //
-// //
 //
 //
 //
-
+//
+//
 const propertiesEl = document.querySelector(".properties");
 const footerEl = document.querySelector(".footer");
+const reviewContainer = document.querySelector(".reviews");
+const containerEl = document.querySelector(".container");
+const buttonEl = document.querySelector("button");
 
 let isOpen: boolean;
 let isLoggedIn: boolean;
-
+//
+//
+// EXPORT BELOW TO INTERFACES.TS
+//
+//
+interface Review {
+  name: string;
+  stars: number;
+  loyaltyUser: LoyaltyUser;
+  date: string;
+}
+//
+//
+//
+//
+//
 // Reviews
-const reviews: (
-  | {
-      name: string;
-      stars: number;
-      loyaltyUser: LoyaltyUser;
-      date: string;
-    }
-  | {
-      name: string;
-      stars: number;
-      loyaltyUser: LoyaltyUser;
-      date: string;
-      description: string;
-    }
-)[] = [
-  //
-  // alternative to the above union type, does the job but it is not optimal
-  //
-  // const reviews: any[] = [
-  //
+const reviews: Review[] = [
   {
     name: "Sheia",
     stars: 5,
@@ -120,7 +128,6 @@ const reviews: (
     stars: 4,
     loyaltyUser: LoyaltyUser.SILVER_USER,
     date: "27-03-2021",
-    description: "Great hosts, location was a bit further than said",
   },
 ];
 
@@ -154,7 +161,7 @@ type Price = 45 | 30 | 25;
 type Country = "Colombia" | "Poland" | "United Kingdom";
 //
 //
-// MOVE THE ABOVE TO A SEPARATE FILE
+// MOVE THE ABOVE TO A SEPARATE FILE TYPES.TS
 //
 //
 //
@@ -231,8 +238,26 @@ for (let i = 0; i < properties.length; i++) {
   card.appendChild(image);
   propertiesEl?.appendChild(card);
   showDetails(you.permissions, card, properties[i].price);
+  propertiesEl?.appendChild(card);
 }
+
+let count = 0;
+function addReviews(reviews: Review[]): void {
+  if (!count) {
+    count++;
+    const topTwo = getTopTwoReviews(reviews);
+    for (let i = 0; i < topTwo.length; i++) {
+      const card = document.createElement("div");
+      card.classList.add("review-card");
+      card.innerHTML = topTwo[i].stars + " stars from " + topTwo[i].name;
+      reviewContainer!.appendChild(card);
+    }
+    containerEl!.removeChild(buttonEl!);
+  }
+}
+
+buttonEl!.addEventListener("click", () => addReviews(reviews));
 
 // use your location, your current time, and current temperature of your location
 let currentLocation: [string, string, number] = ["Kraków", "15:00", 12];
-footerEl!.innerHTML = `${currentLocation[0]} ${currentLocation[1]} ${currentLocation[2]}°`;
+footerEl!.innerHTML = `${currentLocation[0]}, ${currentLocation[1]}, ${currentLocation[2]}°`;
