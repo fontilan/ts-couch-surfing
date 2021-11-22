@@ -2,10 +2,11 @@
 // import { showReviewTotal, populateUser } from "./utils";
 // import { Permissiones, LoyaltyUser } from "./enums";
 // import { Price, Country } from "./types";
+// import { Review } from "./interfaces";
 //
 //
 //
-// MOVE THIS TO A SEPARATE FILE
+// MOVE THIS TO A SEPARATE FILE UTILS.JS
 //
 //
 var returningUserDisplay = document.querySelector("#returning-user");
@@ -38,16 +39,19 @@ function makeMultiple(value) {
     else
         return "";
 }
+function getTopTwoReviews(reviews) {
+    var sortedReviews = reviews.sort(function (a, b) { return b.stars - a.stars; });
+    return sortedReviews.slice(0, 2);
+}
 //
 //
 //
 //
 //
 //
+// MOVE THIS TO ANOTHER SEPARATE FILE ENUMS.TS
 //
-// MOVE THIS TO ANOTHER SEPARATE FILE
 //
-// //
 var Permissiones;
 (function (Permissiones) {
     Permissiones[Permissiones["ADMIN"] = 0] = "ADMIN";
@@ -59,22 +63,25 @@ var LoyaltyUser;
     LoyaltyUser["SILVER_USER"] = "SILVER_USER";
     LoyaltyUser["BRONZE_USER"] = "BRONZE_USER";
 })(LoyaltyUser || (LoyaltyUser = {}));
-// //
-// //
+//
+//
 //
 //
 //
 var propertiesEl = document.querySelector(".properties");
 var footerEl = document.querySelector(".footer");
+var reviewContainer = document.querySelector(".reviews");
+var containerEl = document.querySelector(".container");
+var buttonEl = document.querySelector("button");
 var isOpen;
 var isLoggedIn;
+//
+//
+//
+//
+//
 // Reviews
 var reviews = [
-    //
-    // alternative to the above union type, does the job but it is not optimal
-    //
-    // const reviews: any[] = [
-    //
     {
         name: "Sheia",
         stars: 5,
@@ -92,7 +99,6 @@ var reviews = [
         stars: 4,
         loyaltyUser: LoyaltyUser.SILVER_USER,
         date: "27-03-2021",
-        description: "Great hosts, location was a bit further than said",
     },
 ];
 var ADMIN = "admin";
@@ -108,7 +114,7 @@ var you = {
 console.log(you.firstName);
 //
 //
-// MOVE THE ABOVE TO A SEPARATE FILE
+// MOVE THE ABOVE TO A SEPARATE FILE TYPES.TS
 //
 //
 //
@@ -169,7 +175,23 @@ for (var i = 0; i < properties.length; i++) {
     card.appendChild(image);
     propertiesEl === null || propertiesEl === void 0 ? void 0 : propertiesEl.appendChild(card);
     showDetails(you.permissions, card, properties[i].price);
+    propertiesEl === null || propertiesEl === void 0 ? void 0 : propertiesEl.appendChild(card);
 }
+var count = 0;
+function addReviews(reviews) {
+    if (!count) {
+        count++;
+        var topTwo = getTopTwoReviews(reviews);
+        for (var i = 0; i < topTwo.length; i++) {
+            var card = document.createElement("div");
+            card.classList.add("review-card");
+            card.innerHTML = topTwo[i].stars + " stars from " + topTwo[i].name;
+            reviewContainer.appendChild(card);
+        }
+        containerEl.removeChild(buttonEl);
+    }
+}
+buttonEl.addEventListener("click", function () { return addReviews(reviews); });
 // use your location, your current time, and current temperature of your location
 var currentLocation = ["Kraków", "15:00", 12];
-footerEl.innerHTML = currentLocation[0] + " " + currentLocation[1] + " " + currentLocation[2] + "\u00B0";
+footerEl.innerHTML = currentLocation[0] + ", " + currentLocation[1] + ", " + currentLocation[2] + "\u00B0";
