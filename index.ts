@@ -1,114 +1,22 @@
-// import { showReviewTotal, populateUser } from "./utils";
-// import { Permissiones, LoyaltyUser } from "./enums";
-// import { Price, Country } from "./types";
-// import { Review } from "./interfaces";
-//
-//
-//
-// MOVE THIS TO A SEPARATE FILE UTILS.JS
-//
-//
-const returningUserDisplay = document.querySelector("#returning-user");
-const userNameDisplay = document.querySelector("#user");
-const reviewTotalDisplay = document.querySelector("#reviews");
+import {
+  showReviewTotal,
+  populateUser,
+  getTopTwoReviews,
+  showDetails,
+} from "./utils.js";
+import { Permissiones, LoyaltyUser } from "./enums.js";
+import { Price, Country } from "./types.js";
+import Review from "./interfaces.js";
 
-function showReviewTotal(value: number, reviewer: string, isLoyalty: string) {
-  const iconDisplay = isLoyalty === LoyaltyUser.GOLD_USER ? "⭐" : "";
-  reviewTotalDisplay!.innerHTML = `
-    ${value.toString()} review${makeMultiple(value)}
-    |
-    last reviewed by ${reviewer}
-    ${iconDisplay}
-  `;
-}
-
-function populateUser(isReturning: boolean, userName: string) {
-  if (isReturning) {
-    returningUserDisplay!.innerHTML = "back";
-  }
-  userNameDisplay!.innerHTML += userName;
-}
-
-function showDetails(
-  authorityStatus: boolean | Permissiones,
-  element: HTMLDivElement,
-  price: number
-) {
-  if (isLoggedIn) {
-    const priceDisplay = document.createElement("div");
-    priceDisplay.innerHTML = price.toString() + "/night";
-    element.appendChild(priceDisplay);
-  }
-}
-
-function add(firstValue: number, secondValue: number): number {
-  return firstValue + secondValue;
-}
-
-function makeMultiple(value: number): string {
-  if (value > 1 || value === 0) {
-    return "s";
-  } else return "";
-}
-
-function getTopTwoReviews(reviews: Review[]): {
-  name: string;
-  stars: number;
-  loyaltyUser: LoyaltyUser;
-  date: string;
-}[] {
-  const sortedReviews = reviews.sort((a, b) => b.stars - a.stars);
-  return sortedReviews.slice(0, 2);
-}
-//
-//
-//
-//
-
-//
-//
-// MOVE THIS TO ANOTHER SEPARATE FILE ENUMS.TS
-//
-//
-enum Permissiones {
-  ADMIN,
-  READ_ONLY,
-}
-
-enum LoyaltyUser {
-  GOLD_USER = "GOLD_USER",
-  SILVER_USER = "SILVER_USER",
-  BRONZE_USER = "BRONZE_USER",
-}
-//
-//
-//
-//
-//
 const propertiesEl = document.querySelector(".properties");
 const footerEl = document.querySelector(".footer");
 const reviewContainer = document.querySelector(".reviews");
 const containerEl = document.querySelector(".container");
 const buttonEl = document.querySelector("button");
 
-let isOpen: boolean;
+// let isOpen: boolean;
 let isLoggedIn: boolean;
-//
-//
-// EXPORT BELOW TO INTERFACES.TS
-//
-//
-interface Review {
-  name: string;
-  stars: number;
-  loyaltyUser: LoyaltyUser;
-  date: string;
-}
-//
-//
-//
-//
-//
+
 // Reviews
 const reviews: Review[] = [
   {
@@ -131,9 +39,6 @@ const reviews: Review[] = [
   },
 ];
 
-const ADMIN = "admin";
-const READ_ONLY = "read-only";
-
 const you: {
   firstName: string;
   lastName: string;
@@ -149,22 +54,6 @@ const you: {
   age: 35,
   stayedAt: ["florida-home", "oman-flat", "tokyo-bungalow"],
 };
-
-console.log(you.firstName);
-//
-//
-//
-//
-//
-// // type Alias
-type Price = 45 | 30 | 25;
-type Country = "Colombia" | "Poland" | "United Kingdom";
-//
-//
-// MOVE THE ABOVE TO A SEPARATE FILE TYPES.TS
-//
-//
-//
 
 // Array of Properties
 const properties: {
@@ -225,8 +114,7 @@ const properties: {
 showReviewTotal(reviews.length, reviews[0].name, reviews[0].loyaltyUser);
 populateUser(you.isReturning, you.firstName);
 
-let authorityStatus: any;
-isLoggedIn = true;
+// isLoggedIn = true;
 
 // Add the properties - this is a lot of new stuff !!
 for (let i = 0; i < properties.length; i++) {
@@ -258,6 +146,5 @@ function addReviews(reviews: Review[]): void {
 
 buttonEl!.addEventListener("click", () => addReviews(reviews));
 
-// use your location, your current time, and current temperature of your location
 let currentLocation: [string, string, number] = ["Kraków", "15:00", 12];
 footerEl!.innerHTML = `${currentLocation[0]}, ${currentLocation[1]}, ${currentLocation[2]}°`;
