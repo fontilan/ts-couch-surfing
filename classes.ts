@@ -1,4 +1,4 @@
-import { Review } from "./interfaces.js";
+import { Review } from "./interfaces";
 
 export default class MainProperty {
   reviews: Review[];

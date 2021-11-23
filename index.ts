@@ -4,9 +4,9 @@ import {
   getTopTwoReviews,
   showDetails,
 } from "./utils.js";
-import { Permissiones, LoyaltyUser } from "./enums.js";
-import { Review, Property } from "./interfaces.js";
-import MainProperty from "./classes.js";
+import { Permissiones, LoyaltyUser } from "./enums";
+import { Review, Property } from "./interfaces";
+import MainProperty from "./classes";
 
 const propertiesEl = document.querySelector(".properties");
 const footerEl = document.querySelector(".footer");
