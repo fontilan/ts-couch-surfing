@@ -5,8 +5,8 @@ import {
   showDetails,
 } from "./utils.js";
 import { Permissiones, LoyaltyUser } from "./enums.js";
-import { Price, Country } from "./types.js";
-import Review from "./interfaces.js";
+import { Review, Property } from "./interfaces.js";
+import MainProperty from "./classes.js";
 
 const propertiesEl = document.querySelector(".properties");
 const footerEl = document.querySelector(".footer");
@@ -14,7 +14,6 @@ const reviewContainer = document.querySelector(".reviews");
 const containerEl = document.querySelector(".container");
 const buttonEl = document.querySelector("button");
 
-// let isOpen: boolean;
 let isLoggedIn: boolean;
 
 // Reviews
@@ -55,20 +54,7 @@ const you: {
   stayedAt: ["florida-home", "oman-flat", "tokyo-bungalow"],
 };
 
-// Array of Properties
-const properties: {
-  image: string;
-  title: string;
-  price: number;
-  location: {
-    firstLine: string;
-    city: string;
-    postcode: number;
-    country: Country;
-  };
-  contact: [number, string];
-  isAvailable: boolean;
-}[] = [
+const properties: Property[] = [
   {
     image: "images/colombia-property.jpg",
     title: "Colombian Shack",
@@ -85,7 +71,7 @@ const properties: {
   {
     image: "images/poland-property.jpg",
     title: "Polish Cottage",
-    price: 34,
+    price: 30,
     location: {
       firstLine: "no 23",
       city: "Gdansk",
@@ -98,15 +84,28 @@ const properties: {
   {
     image: "images/london-property.jpg",
     title: "London flat",
-    price: 23,
+    price: 25,
     location: {
       firstLine: "flat 75",
       city: "London",
-      postcode: 444984,
+      postcode: "SW4 5XW",
       country: "United Kingdom",
     },
     contact: [+1123495082908, "joejones@outlook.com"],
     isAvailable: true,
+  },
+  {
+    image: "images/malaysia-property.jpg",
+    title: "Malia Hotel",
+    price: 35,
+    location: {
+      firstLine: "Room 4",
+      city: "Malia",
+      postcode: 45334,
+      country: "Malaysia",
+    },
+    contact: [+60349822083, "lee34@gmail.com"],
+    isAvailable: false,
   },
 ];
 
@@ -129,6 +128,7 @@ for (let i = 0; i < properties.length; i++) {
   propertiesEl?.appendChild(card);
 }
 
+// Add top two reviews
 let count = 0;
 function addReviews(reviews: Review[]): void {
   if (!count) {
@@ -146,5 +146,25 @@ function addReviews(reviews: Review[]): void {
 
 buttonEl!.addEventListener("click", () => addReviews(reviews));
 
+// This is for the footer
 let currentLocation: [string, string, number] = ["Kraków", "15:00", 12];
 footerEl!.innerHTML = `${currentLocation[0]}, ${currentLocation[1]}, ${currentLocation[2]}°`;
+
+// the main property, biggest on top of the page
+let yourMainProperty = new MainProperty(
+  [
+    {
+      name: "Olive",
+      stars: 5,
+      loyaltyUser: LoyaltyUser.GOLD_USER,
+      date: "12-04-2021",
+    },
+  ],
+  "images/italian-property.jpg",
+  "Italian Property"
+);
+
+const mainImageContainer = document.querySelector(".main-image");
+const image = document.createElement("img");
+image.setAttribute("src", yourMainProperty.src);
+mainImageContainer?.appendChild(image);
