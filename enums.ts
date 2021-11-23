@@ -1,6 +1,6 @@
 export enum Permissiones {
-  ADMIN,
-  READ_ONLY,
+  ADMIN = "ADMIN",
+  READ_ONLY = "READ_ONLY",
 }
 
 export enum LoyaltyUser {
