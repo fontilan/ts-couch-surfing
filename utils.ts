@@ -2,7 +2,7 @@ const returningUserDisplay = document.querySelector("#returning-user");
 const userNameDisplay = document.querySelector("#user");
 const reviewTotalDisplay = document.querySelector("#reviews");
 import { LoyaltyUser, Permissiones } from "./enums.js";
-import Review from "./interfaces.js";
+import { Review } from "./interfaces.js";
 
 export function showReviewTotal(
   value: number,
@@ -20,7 +20,7 @@ export function showReviewTotal(
 
 export function populateUser(isReturning: boolean, userName: string) {
   if (isReturning) {
-    returningUserDisplay!.innerHTML = "back";
+    returningUserDisplay!.innerHTML = "back, ";
   }
   userNameDisplay!.innerHTML += userName;
 }
@@ -32,7 +32,7 @@ export function showDetails(
 ) {
   if (value) {
     const priceDisplay = document.createElement("div");
-    priceDisplay.innerHTML = price.toString() + "/night";
+    priceDisplay.innerHTML = `\$${price.toString()} / night`;
     element.appendChild(priceDisplay);
   }
 }
