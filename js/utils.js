@@ -17,8 +17,8 @@ export function populateUser(isReturning, userName) {
     }
     userNameDisplay.innerHTML += userName;
 }
-export function showDetails(authorityStatus, element, price) {
-    if (isLoggedIn) {
+export function showDetails(value, element, price) {
+    if (value) {
         const priceDisplay = document.createElement("div");
         priceDisplay.innerHTML = price.toString() + "/night";
         element.appendChild(priceDisplay);

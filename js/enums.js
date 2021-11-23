@@ -1,7 +1,7 @@
 export var Permissiones;
 (function (Permissiones) {
-    Permissiones[Permissiones["ADMIN"] = 0] = "ADMIN";
-    Permissiones[Permissiones["READ_ONLY"] = 1] = "READ_ONLY";
+    Permissiones["ADMIN"] = "ADMIN";
+    Permissiones["READ_ONLY"] = "READ_ONLY";
 })(Permissiones || (Permissiones = {}));
 export var LoyaltyUser;
 (function (LoyaltyUser) {
