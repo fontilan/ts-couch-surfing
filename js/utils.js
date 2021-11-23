@@ -13,14 +13,14 @@ export function showReviewTotal(value, reviewer, isLoyalty) {
 }
 export function populateUser(isReturning, userName) {
     if (isReturning) {
-        returningUserDisplay.innerHTML = "back";
+        returningUserDisplay.innerHTML = "back, ";
     }
     userNameDisplay.innerHTML += userName;
 }
 export function showDetails(value, element, price) {
     if (value) {
         const priceDisplay = document.createElement("div");
-        priceDisplay.innerHTML = price.toString() + "/night";
+        priceDisplay.innerHTML = `\$${price.toString()} / night`;
         element.appendChild(priceDisplay);
     }
 }
