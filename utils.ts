@@ -26,11 +26,11 @@ export function populateUser(isReturning: boolean, userName: string) {
 }
 
 export function showDetails(
-  authorityStatus: boolean | Permissiones,
+  value: boolean | Permissiones,
   element: HTMLDivElement,
   price: number
 ) {
-  if (isLoggedIn) {
+  if (value) {
     const priceDisplay = document.createElement("div");
     priceDisplay.innerHTML = price.toString() + "/night";
     element.appendChild(priceDisplay);
@@ -43,12 +43,7 @@ export function makeMultiple(value: number): string {
   } else return "";
 }
 
-export function getTopTwoReviews(reviews: Review[]): {
-  name: string;
-  stars: number;
-  loyaltyUser: LoyaltyUser;
-  date: string;
-}[] {
+export function getTopTwoReviews(reviews: Review[]): Review[] {
   const sortedReviews = reviews.sort((a, b) => b.stars - a.stars);
   return sortedReviews.slice(0, 2);
 }
