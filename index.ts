@@ -113,8 +113,6 @@ const properties: Property[] = [
 showReviewTotal(reviews.length, reviews[0].name, reviews[0].loyaltyUser);
 populateUser(you.isReturning, you.firstName);
 
-// isLoggedIn = true;
-
 // Add the properties - this is a lot of new stuff !!
 for (let i = 0; i < properties.length; i++) {
   const card = document.createElement("div");
@@ -128,7 +126,7 @@ for (let i = 0; i < properties.length; i++) {
   propertiesEl?.appendChild(card);
 }
 
-// Add top two reviews
+// top two reviews
 let count = 0;
 function addReviews(reviews: Review[]): void {
   if (!count) {
@@ -146,11 +144,11 @@ function addReviews(reviews: Review[]): void {
 
 buttonEl!.addEventListener("click", () => addReviews(reviews));
 
-// This is for the footer
+// footer
 let currentLocation: [string, string, number] = ["Kraków", "15:00", 12];
 footerEl!.innerHTML = `${currentLocation[0]}, ${currentLocation[1]}, ${currentLocation[2]}°`;
 
-// the main property, biggest on top of the page
+// the main property
 let yourMainProperty = new MainProperty(
   [
     {
