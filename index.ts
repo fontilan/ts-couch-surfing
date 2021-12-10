@@ -14,8 +14,6 @@ const reviewContainer = document.querySelector(".reviews");
 const containerEl = document.querySelector(".container");
 const buttonEl = document.querySelector("button");
 
-let isLoggedIn: boolean;
-
 // Reviews
 const reviews: Review[] = [
   {
