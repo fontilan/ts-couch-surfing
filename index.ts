@@ -8,11 +8,11 @@ import { Permissiones, LoyaltyUser } from "./enums";
 import { Review, Property } from "./interfaces";
 import MainProperty from "./classes";
 
-const propertiesEl = document.querySelector(".properties");
-const footerEl = document.querySelector(".footer");
-const reviewContainer = document.querySelector(".reviews");
-const containerEl = document.querySelector(".container");
-const buttonEl = document.querySelector("button");
+const propertiesEl = document.querySelector(".properties") as HTMLElement;
+const footerEl = document.querySelector(".footer") as HTMLElement;
+const reviewContainer = document.querySelector(".reviews") as HTMLElement;
+const containerEl = document.querySelector(".container") as HTMLElement;
+const buttonEl = document.querySelector("button") as HTMLElement;
 
 // Reviews
 const reviews: Review[] = [
@@ -119,9 +119,9 @@ for (let i = 0; i < properties.length; i++) {
   const image = document.createElement("img");
   image.setAttribute("src", properties[i].image);
   card.appendChild(image);
-  propertiesEl?.appendChild(card);
+  propertiesEl.appendChild(card);
   showDetails(you.permissions, card, properties[i].price);
-  propertiesEl?.appendChild(card);
+  propertiesEl.appendChild(card);
 }
 
 // top two reviews
@@ -134,17 +134,17 @@ function addReviews(reviews: Review[]): void {
       const card = document.createElement("div");
       card.classList.add("review-card");
       card.innerHTML = topTwo[i].stars + " stars from " + topTwo[i].name;
-      reviewContainer!.appendChild(card);
+      reviewContainer.appendChild(card);
     }
-    containerEl!.removeChild(buttonEl!);
+    containerEl.removeChild(buttonEl);
   }
 }
 
-buttonEl!.addEventListener("click", () => addReviews(reviews));
+buttonEl.addEventListener("click", () => addReviews(reviews));
 
 // footer
 let currentLocation: [string, string, number] = ["Kraków", "15:00", 12];
-footerEl!.innerHTML = `${currentLocation[0]}, ${currentLocation[1]}, ${currentLocation[2]}°`;
+footerEl.innerHTML = `${currentLocation[0]}, ${currentLocation[1]}, ${currentLocation[2]}°`;
 
 // the main property
 let yourMainProperty = new MainProperty(
@@ -160,7 +160,7 @@ let yourMainProperty = new MainProperty(
   "Italian Property"
 );
 
-const mainImageContainer = document.querySelector(".main-image");
+const mainImageContainer = document.querySelector(".main-image") as HTMLElement;
 const image = document.createElement("img");
 image.setAttribute("src", yourMainProperty.src);
-mainImageContainer?.appendChild(image);
+mainImageContainer.appendChild(image);
